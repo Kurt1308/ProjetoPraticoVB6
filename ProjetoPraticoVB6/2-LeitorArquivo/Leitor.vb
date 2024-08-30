@@ -1,8 +1,7 @@
 ﻿Imports System
 Imports System.IO
 Imports Newtonsoft.Json
-Imports ProjetoPraticoVB6.Pessoa
-Imports ProjetoPraticoVB6.Logs ' Adicione esta linha para importar o namespace de logs
+Imports ProjetoPraticoVB6.Logs ' Linha para importar o namespace de logs
 
 Namespace Leitor
     Public Class Leitor
