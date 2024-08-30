@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProjetoPraticoVB6", "ProjetoPraticoVB6\ProjetoPraticoVB6.vbproj", "{80C893F7-8C49-4E1A-9283-1213B86CD895}"
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "ProjetoPraticoVB6", "ProjetoPraticoVB6\ProjetoPraticoVB6.vbproj", "{80C893F7-8C49-4E1A-9283-1213B86CD895}"
+EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ProjetoPraticoVB.Tests", "ProjetoPraticoVB.Tests\ProjetoPraticoVB.Tests.vbproj", "{C1DC1C16-50B6-45E2-8A34-2E7A3BE3A92C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{80C893F7-8C49-4E1A-9283-1213B86CD895}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80C893F7-8C49-4E1A-9283-1213B86CD895}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80C893F7-8C49-4E1A-9283-1213B86CD895}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1DC1C16-50B6-45E2-8A34-2E7A3BE3A92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1DC1C16-50B6-45E2-8A34-2E7A3BE3A92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1DC1C16-50B6-45E2-8A34-2E7A3BE3A92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1DC1C16-50B6-45E2-8A34-2E7A3BE3A92C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
