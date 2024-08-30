@@ -6,8 +6,10 @@ Imports ProjetoPraticoVB6.Logs ' Adicione esta linha para importar o namespace d
 
 Namespace Leitor
     Public Class Leitor
-        Public Sub LerArquivos(filePath As String)
-            Dim logger As New GeraLog() ' Cria uma instância de GeraLog
+        Implements ILeitor
+
+        Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
+            Dim logger As IGeraLog = New Logs.GeraLog() ' Cria uma instância de GeraLog
 
             ' Verifica se o diretório existe
             If Not Directory.Exists(filePath) Then
