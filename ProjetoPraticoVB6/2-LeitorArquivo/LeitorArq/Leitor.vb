@@ -1,43 +1,48 @@
 ﻿Imports System
 Imports System.IO
 Imports Newtonsoft.Json
-Imports ProjetoPraticoVB6.Logs ' Linha para importar o namespace de logs
+Imports ProjetoPraticoVB6.Logs
 
 Namespace Leitor
     Public Class Leitor
         Implements ILeitor
 
-        Private logger As IGeraLog ' Campo para o logger
+        ' Campos para construtores
+        Private logger As IGeraLog
         Private verificadorDiretorio As Serviços.IVerificadorDiretorio
 
+        ' Inicializa os construtores
         Public Sub New()
-            logger = New Logs.GeraLog() ' Inicializa o logger no construtor
+            logger = New Logs.GeraLog()
             verificadorDiretorio = New Serviços.VerificadorDiretorio(logger)
         End Sub
 
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
-
             If Not verificadorDiretorio.VerificarDiretorio(filePath) Then Return
 
             Dim arquivos As String() = Directory.GetFiles(filePath, "*.txt")
             Dim contadorTotal As Integer = 0
+            Dim todasPessoasFemininas As New List(Of Pessoa.Pessoa)()
 
             For Each inputFile As String In arquivos
-                If Not ProcessarArquivo(inputFile, contadorTotal) Then
-                    Continue For
+                Dim pessoasFemininas As List(Of Pessoa.Pessoa) = ProcessarArquivo(inputFile, contadorTotal)
+                If pessoasFemininas IsNot Nothing Then
+                    todasPessoasFemininas.AddRange(pessoasFemininas)
                 End If
             Next
 
             If contadorTotal = 0 Then
                 logger.Log("Nenhum arquivo .txt encontrado ou processado.")
                 Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
+            ElseIf todasPessoasFemininas.Count > 0 Then
+                ExibirResultados(todasPessoasFemininas)
             End If
         End Sub
 
-        Public Function ProcessarArquivo(inputFile As String, ByRef contadorTotal As Integer) As Boolean Implements ILeitor.ProcessarArquivo
+        Public Function ProcessarArquivo(inputFile As String, ByRef contadorTotal As Integer) As List(Of Pessoa.Pessoa) Implements ILeitor.ProcessarArquivo
             If Path.GetFileName(inputFile).Contains("E") Then
                 logger.Log($"O arquivo {Path.GetFileName(inputFile)} não será processado porque contém a letra 'E' maiúscula no nome.")
-                Return False
+                Return Nothing
             End If
 
             Dim contador As Integer = 0
@@ -63,15 +68,15 @@ Namespace Leitor
                     End If
                 Next
 
-                ExibirResultados(inputFile, contador, contadorMasculino, contadorFeminino, pessoasFemininas)
                 contadorTotal += contador
-                Return True
+                Return pessoasFemininas
             Catch ex As Exception
                 logger.Log("Ocorreu um erro ao processar o arquivo " & inputFile & ": " & ex.Message)
                 Console.WriteLine("Ocorreu um erro ao processar o arquivo " & inputFile & ": " & ex.Message)
-                Return False
+                Return Nothing
             End Try
         End Function
+
         Private Function ILeitor_CriarPessoa(line As String) As Pessoa.Pessoa Implements ILeitor.CriarPessoa
             Dim elements() As String = line.Split(";"c)
             If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
@@ -84,15 +89,10 @@ Namespace Leitor
         .Cidade = elements(4).Trim()
             }
         End Function
-        Public Sub ExibirResultados(inputFile As String, contador As Integer, contadorMasculino As Integer, contadorFeminino As Integer, pessoasFemininas As List(Of Pessoa.Pessoa)) Implements ILeitor.ExibirResultados
+        Public Sub ExibirResultados(pessoasFemininas As List(Of Pessoa.Pessoa)) Implements ILeitor.ExibirResultados
             Dim jsonString As String = JsonConvert.SerializeObject(pessoasFemininas, Formatting.Indented)
             Console.WriteLine("____________________________________________")
-            Console.WriteLine($"Arquivo: {Path.GetFileName(inputFile)}")
-            Console.WriteLine("Total de linhas do arquivo: " & "****" & contador & "****")
-            Console.WriteLine("Total de linhas processadas: " & "****" & contadorFeminino & "****")
-            Console.WriteLine("Total de linhas não processadas: " & "****" & contadorMasculino & "****")
             Console.WriteLine(jsonString)
-            logger.Log("Arquivo processado: " & inputFile)
         End Sub
     End Class
 End Namespace
