@@ -8,14 +8,16 @@ Namespace Leitor
         Implements ILeitor
 
         Private logger As IGeraLog ' Campo para o logger
+        Private verificadorDiretorio As Serviços.IVerificadorDiretorio
 
         Public Sub New()
             logger = New Logs.GeraLog() ' Inicializa o logger no construtor
+            verificadorDiretorio = New Serviços.VerificadorDiretorio(logger)
         End Sub
 
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
 
-            If Not VerificarDiretorio(filePath) Then Return
+            If Not verificadorDiretorio.VerificarDiretorio(filePath) Then Return
 
             Dim arquivos As String() = Directory.GetFiles(filePath, "*.txt")
             Dim contadorTotal As Integer = 0
@@ -31,14 +33,6 @@ Namespace Leitor
                 Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
             End If
         End Sub
-        Public Function VerificarDiretorio(filePath As String) As Boolean Implements ILeitor.VerificarDiretorio
-            If Not Directory.Exists(filePath) Then
-                logger.Log("O diretório não foi encontrado: " & filePath)
-                Console.WriteLine("O diretório não foi encontrado: " & filePath)
-                Return False
-            End If
-            Return True
-        End Function
 
         Public Function ProcessarArquivo(inputFile As String, ByRef contadorTotal As Integer) As Boolean Implements ILeitor.ProcessarArquivo
             If Path.GetFileName(inputFile).Contains("E") Then
