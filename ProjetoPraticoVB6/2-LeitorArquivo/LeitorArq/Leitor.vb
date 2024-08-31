@@ -1,7 +1,8 @@
 ﻿Imports System
 Imports System.IO
-Imports Newtonsoft.Json
 Imports ProjetoPraticoVB6.Logs
+Imports ProjetoPraticoVB6.Pessoa ' Ajuste conforme necessário
+Imports ProjetoPraticoVB6.Serviços ' Ajuste conforme necessário
 
 Namespace Leitor
     Public Class Leitor
@@ -9,12 +10,14 @@ Namespace Leitor
 
         ' Campos para construtores
         Private logger As IGeraLog
-        Private verificadorDiretorio As Serviços.IVerificadorDiretorio
+        Private verificadorDiretorio As IVerificadorDiretorio
+        Private exibidorResultados As IExibidorResultados
 
         ' Inicializa os construtores
         Public Sub New()
             logger = New Logs.GeraLog()
             verificadorDiretorio = New Serviços.VerificadorDiretorio(logger)
+            exibidorResultados = New Serviços.ExibidorResultados() ' Inicializa a classe ExibidorResultados
         End Sub
 
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
@@ -35,7 +38,7 @@ Namespace Leitor
                 logger.Log("Nenhum arquivo .txt encontrado ou processado.")
                 Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
             ElseIf todasPessoasFemininas.Count > 0 Then
-                ExibirResultados(todasPessoasFemininas)
+                exibidorResultados.ExibirResultados(todasPessoasFemininas) ' Usa a classe ExibidorResultados
             End If
         End Sub
 
@@ -82,17 +85,12 @@ Namespace Leitor
             If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
 
             Return New Pessoa.Pessoa With {
-        .Nome = elements(0).Trim(),
-        .Sobrenome = elements(1).Trim(),
-        .Idade = Convert.ToInt32(elements(2).Trim()),
-        .Sexo = elements(3).Trim(),
-        .Cidade = elements(4).Trim()
+                .Nome = elements(0).Trim(),
+                .Sobrenome = elements(1).Trim(),
+                .Idade = Convert.ToInt32(elements(2).Trim()),
+                .Sexo = elements(3).Trim(),
+                .Cidade = elements(4).Trim()
             }
         End Function
-        Public Sub ExibirResultados(pessoasFemininas As List(Of Pessoa.Pessoa)) Implements ILeitor.ExibirResultados
-            Dim jsonString As String = JsonConvert.SerializeObject(pessoasFemininas, Formatting.Indented)
-            Console.WriteLine("____________________________________________")
-            Console.WriteLine(jsonString)
-        End Sub
     End Class
 End Namespace
