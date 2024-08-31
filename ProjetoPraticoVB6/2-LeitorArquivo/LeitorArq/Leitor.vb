@@ -12,12 +12,14 @@ Namespace Leitor
         Private logger As IGeraLog
         Private verificadorDiretorio As IVerificadorDiretorio
         Private exibidorResultados As IExibidorResultados
+        Private processadorArquivo As IProcessadorArquivo
 
         ' Inicializa os construtores
         Public Sub New()
             logger = New Logs.GeraLog()
             verificadorDiretorio = New Serviços.VerificadorDiretorio(logger)
             exibidorResultados = New Serviços.ExibidorResultados() ' Inicializa a classe ExibidorResultados
+            processadorArquivo = New Serviços.ProcessadorArquivo(logger) ' Inicializa a classe ProcessadorArquivo
         End Sub
 
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
@@ -28,7 +30,7 @@ Namespace Leitor
             Dim todasPessoasFemininas As New List(Of Pessoa.Pessoa)()
 
             For Each inputFile As String In arquivos
-                Dim pessoasFemininas As List(Of Pessoa.Pessoa) = ProcessarArquivo(inputFile, contadorTotal)
+                Dim pessoasFemininas As List(Of Pessoa.Pessoa) = processadorArquivo.ProcessarArquivo(inputFile, contadorTotal)
                 If pessoasFemininas IsNot Nothing Then
                     todasPessoasFemininas.AddRange(pessoasFemininas)
                 End If
@@ -42,55 +44,5 @@ Namespace Leitor
             End If
         End Sub
 
-        Public Function ProcessarArquivo(inputFile As String, ByRef contadorTotal As Integer) As List(Of Pessoa.Pessoa) Implements ILeitor.ProcessarArquivo
-            If Path.GetFileName(inputFile).Contains("E") Then
-                logger.Log($"O arquivo {Path.GetFileName(inputFile)} não será processado porque contém a letra 'E' maiúscula no nome.")
-                Return Nothing
-            End If
-
-            Dim contador As Integer = 0
-            Dim contadorMasculino As Integer = 0
-            Dim contadorFeminino As Integer = 0
-            Dim pessoasMasculinas As New List(Of Pessoa.Pessoa)()
-            Dim pessoasFemininas As New List(Of Pessoa.Pessoa)()
-
-            Try
-                Dim lines() As String = File.ReadAllLines(inputFile)
-
-                For Each line As String In lines
-                    Dim pessoa As Pessoa.Pessoa = CriarPessoa(line)
-                    If pessoa IsNot Nothing Then
-                        If String.Equals(pessoa.Sexo, "Masculino", StringComparison.OrdinalIgnoreCase) Then
-                            contadorMasculino += 1
-                            pessoasMasculinas.Add(pessoa)
-                        ElseIf String.Equals(pessoa.Sexo, "Feminino", StringComparison.OrdinalIgnoreCase) Then
-                            contadorFeminino += 1
-                            pessoasFemininas.Add(pessoa)
-                        End If
-                        contador += 1
-                    End If
-                Next
-
-                contadorTotal += contador
-                Return pessoasFemininas
-            Catch ex As Exception
-                logger.Log("Ocorreu um erro ao processar o arquivo " & inputFile & ": " & ex.Message)
-                Console.WriteLine("Ocorreu um erro ao processar o arquivo " & inputFile & ": " & ex.Message)
-                Return Nothing
-            End Try
-        End Function
-
-        Private Function CriarPessoa(line As String) As Pessoa.Pessoa
-            Dim elements() As String = line.Split(";"c)
-            If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
-
-            Return New Pessoa.Pessoa With {
-                .Nome = elements(0).Trim(),
-                .Sobrenome = elements(1).Trim(),
-                .Idade = Convert.ToInt32(elements(2).Trim()),
-                .Sexo = elements(3).Trim(),
-                .Cidade = elements(4).Trim()
-            }
-        End Function
     End Class
 End Namespace
