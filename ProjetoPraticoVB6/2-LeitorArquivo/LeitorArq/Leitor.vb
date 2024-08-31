@@ -80,7 +80,7 @@ Namespace Leitor
             End Try
         End Function
 
-        Private Function CriarPessoa(line As String) As Pessoa.Pessoa Implements ILeitor.CriarPessoa
+        Private Function CriarPessoa(line As String) As Pessoa.Pessoa
             Dim elements() As String = line.Split(";"c)
             If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
 
