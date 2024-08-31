@@ -58,7 +58,7 @@ Namespace Leitor
                 Dim lines() As String = File.ReadAllLines(inputFile)
 
                 For Each line As String In lines
-                    Dim pessoa As Pessoa.Pessoa = ILeitor_CriarPessoa(line)
+                    Dim pessoa As Pessoa.Pessoa = CriarPessoa(line)
                     If pessoa IsNot Nothing Then
                         If String.Equals(pessoa.Sexo, "Masculino", StringComparison.OrdinalIgnoreCase) Then
                             contadorMasculino += 1
@@ -80,7 +80,7 @@ Namespace Leitor
             End Try
         End Function
 
-        Private Function ILeitor_CriarPessoa(line As String) As Pessoa.Pessoa Implements ILeitor.CriarPessoa
+        Private Function CriarPessoa(line As String) As Pessoa.Pessoa Implements ILeitor.CriarPessoa
             Dim elements() As String = line.Split(";"c)
             If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
 
