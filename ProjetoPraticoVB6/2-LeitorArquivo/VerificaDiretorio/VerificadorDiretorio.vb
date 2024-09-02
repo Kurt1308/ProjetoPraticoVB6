@@ -13,6 +13,7 @@ Namespace Serviços
 
         Public Function VerificarDiretorio(path As String) As Boolean Implements IVerificadorDiretorio.VerificarDiretorio
             If Directory.Exists(path) Then
+                logger.Log($"Diretório encontrado: {path}")
                 Return True
             Else
                 logger.Log($"Diretório não encontrado: {path}")

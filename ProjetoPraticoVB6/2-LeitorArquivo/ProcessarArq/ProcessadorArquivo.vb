@@ -1,5 +1,4 @@
-﻿Imports System
-Imports System.IO
+﻿Imports System.IO
 Imports ProjetoPraticoVB6.Logs
 
 Namespace Serviços
@@ -27,6 +26,7 @@ Namespace Serviços
             Try
                 Dim lines() As String = File.ReadAllLines(inputFile)
 
+                logger.Log($"Iniciando processamento arquivo {Path.GetFileName(inputFile)}.")
                 For Each line As String In lines
                     Dim pessoa As Pessoa.Pessoa = CriarPessoa(line)
                     If pessoa IsNot Nothing Then
@@ -40,6 +40,7 @@ Namespace Serviços
                         contador += 1
                     End If
                 Next
+                logger.Log($"Finalizando processamento arquivo {Path.GetFileName(inputFile)}.")
 
                 contadorTotal += contador
                 Return pessoasFemininas
@@ -52,6 +53,7 @@ Namespace Serviços
 
         Private Function CriarPessoa(line As String) As Pessoa.Pessoa
             Dim elements() As String = line.Split(";"c)
+            logger.Log($"Criando pessoa: {elements(0).Trim()} {elements(1).Trim()}.")
             If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
 
             Return New Pessoa.Pessoa With {
