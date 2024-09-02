@@ -1,8 +1,6 @@
-﻿Imports System
-Imports System.IO
+﻿Imports System.IO
 Imports ProjetoPraticoVB6.Logs
-Imports ProjetoPraticoVB6.Pessoa ' Ajuste conforme necessário
-Imports ProjetoPraticoVB6.Serviços ' Ajuste conforme necessário
+Imports ProjetoPraticoVB6.Serviços
 
 Namespace Leitor
     Public Class Leitor
@@ -18,8 +16,8 @@ Namespace Leitor
         Public Sub New()
             logger = New Logs.GeraLog()
             verificadorDiretorio = New Serviços.VerificadorDiretorio(logger)
-            exibidorResultados = New Serviços.ExibidorResultados() ' Inicializa a classe ExibidorResultados
-            processadorArquivo = New Serviços.ProcessadorArquivo(logger) ' Inicializa a classe ProcessadorArquivo
+            exibidorResultados = New Serviços.ExibidorResultados()
+            processadorArquivo = New Serviços.ProcessadorArquivo(logger)
         End Sub
 
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
@@ -40,7 +38,7 @@ Namespace Leitor
                 logger.Log("Nenhum arquivo .txt encontrado ou processado.")
                 Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
             ElseIf todasPessoasFemininas.Count > 0 Then
-                exibidorResultados.ExibirResultados(todasPessoasFemininas) ' Usa a classe ExibidorResultados
+                exibidorResultados.ExibirResultados(todasPessoasFemininas)
             End If
         End Sub
 

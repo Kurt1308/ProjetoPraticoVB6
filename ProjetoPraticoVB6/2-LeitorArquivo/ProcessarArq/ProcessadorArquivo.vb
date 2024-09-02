@@ -1,7 +1,6 @@
 ﻿Imports System
 Imports System.IO
-Imports ProjetoPraticoVB6.Pessoa ' Ajuste conforme necessário
-Imports ProjetoPraticoVB6.Logs ' Ajuste conforme necessário
+Imports ProjetoPraticoVB6.Logs
 
 Namespace Serviços
     Public Class ProcessadorArquivo

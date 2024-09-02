@@ -5,7 +5,7 @@ Namespace Serviços
     Public Class VerificadorDiretorio
         Implements IVerificadorDiretorio
 
-        Private logger As IGeraLog ' Campo para o logger
+        Private logger As IGeraLog
 
         Public Sub New(logger As IGeraLog)
             Me.logger = logger

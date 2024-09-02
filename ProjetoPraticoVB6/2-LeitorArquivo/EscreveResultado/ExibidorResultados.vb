@@ -1,6 +1,4 @@
-﻿Imports System
-Imports Newtonsoft.Json
-Imports ProjetoPraticoVB6.Pessoa ' Certifique-se de ajustar o namespace conforme necessário
+﻿Imports Newtonsoft.Json
 
 Namespace Serviços
     Public Class ExibidorResultados

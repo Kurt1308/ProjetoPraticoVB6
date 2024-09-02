@@ -1,5 +1,4 @@
-﻿Imports System
-Imports System.IO
+﻿Imports System.IO
 Imports ProjetoPraticoVB6.Leitor
 Imports ProjetoPraticoVB6.Logs
 Imports ProjetoPraticoVB6.Pessoa
