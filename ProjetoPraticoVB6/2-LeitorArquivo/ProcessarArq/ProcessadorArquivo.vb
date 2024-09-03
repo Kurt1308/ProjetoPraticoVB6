@@ -17,7 +17,6 @@ Namespace Serviços
                 Return Nothing
             End If
 
-            Dim contador As Integer = 0
             Dim contadorMasculino As Integer = 0
             Dim contadorFeminino As Integer = 0
             Dim pessoasMasculinas As New List(Of Pessoa.Pessoa)()
@@ -37,12 +36,11 @@ Namespace Serviços
                             contadorFeminino += 1
                             pessoasFemininas.Add(pessoa)
                         End If
-                        contador += 1
                     End If
                 Next
                 logger.Log($"Finalizando processamento arquivo {Path.GetFileName(inputFile)}.")
 
-                contadorTotal += contador
+                contadorTotal = contadorFeminino + contadorFeminino
                 Return pessoasFemininas
             Catch ex As Exception
                 logger.Log("Ocorreu um erro ao processar o arquivo " & inputFile & ": " & ex.Message)
