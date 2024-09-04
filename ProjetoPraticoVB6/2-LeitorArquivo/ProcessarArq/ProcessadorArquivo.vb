@@ -6,9 +6,11 @@ Namespace Serviços
         Implements IProcessadorArquivo
 
         Private logger As IGeraLog
+        Private pessoaFactory As IPessoaFactory
 
-        Public Sub New(logger As IGeraLog)
+        Public Sub New(logger As IGeraLog, pessoaFactory As IPessoaFactory)
             Me.logger = logger
+            Me.pessoaFactory = pessoaFactory
         End Sub
 
         Public Function ProcessarArquivo(inputFile As String, ByRef contadorTotal As Integer) As List(Of Pessoa.Pessoa) Implements IProcessadorArquivo.ProcessarArquivo
@@ -27,7 +29,7 @@ Namespace Serviços
 
                 logger.Log($"Iniciando processamento arquivo {Path.GetFileName(inputFile)}.")
                 For Each line As String In lines
-                    Dim pessoa As Pessoa.Pessoa = CriarPessoa(line)
+                    Dim pessoa As Pessoa.Pessoa = pessoaFactory.CriarPessoa(line)
                     If pessoa IsNot Nothing Then
                         If String.Equals(pessoa.Sexo, "Masculino", StringComparison.OrdinalIgnoreCase) Then
                             contadorMasculino += 1
@@ -40,7 +42,7 @@ Namespace Serviços
                 Next
                 logger.Log($"Finalizando processamento arquivo {Path.GetFileName(inputFile)}.")
 
-                contadorTotal = contadorFeminino + contadorFeminino
+                contadorTotal = contadorFeminino + contadorMasculino
                 Return pessoasFemininas
             Catch ex As Exception
                 logger.Log("Ocorreu um erro ao processar o arquivo " & inputFile & ": " & ex.Message)
@@ -48,20 +50,5 @@ Namespace Serviços
                 Return Nothing
             End Try
         End Function
-
-        Private Function CriarPessoa(line As String) As Pessoa.Pessoa
-            Dim elements() As String = line.Split(";"c)
-            logger.Log($"Criando pessoa: {elements(0).Trim()} {elements(1).Trim()}.")
-            If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
-
-            Return New Pessoa.Pessoa With {
-                .Nome = elements(0).Trim(),
-                .Sobrenome = elements(1).Trim(),
-                .Idade = Convert.ToInt32(elements(2).Trim()),
-                .Sexo = elements(3).Trim(),
-                .Cidade = elements(4).Trim()
-            }
-        End Function
     End Class
 End Namespace
-

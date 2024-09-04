@@ -11,13 +11,15 @@ Namespace Leitor
         Private verificadorDiretorio As IVerificadorDiretorio
         Private exibidorResultados As IExibidorResultados
         Private processadorArquivo As IProcessadorArquivo
+        Private pessoaFactory As IPessoaFactory ' Adicione esta linha
 
         ' Inicializa os construtores
         Public Sub New()
             logger = New Logs.GeraLog()
             verificadorDiretorio = New Serviços.VerificadorDiretorio(logger)
             exibidorResultados = New Serviços.ExibidorResultados()
-            processadorArquivo = New Serviços.ProcessadorArquivo(logger)
+            pessoaFactory = New Serviços.PessoaFactory(logger) ' Crie a instância da PessoaFactory
+            processadorArquivo = New Serviços.ProcessadorArquivo(logger, pessoaFactory) ' Passe a pessoaFactory para o ProcessadorArquivo
         End Sub
 
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
