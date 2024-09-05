@@ -7,11 +7,15 @@ Namespace Serviços
 
         Private logger As IGeraLog
 
+        ' Construtor padrão (remova se não for necessário)
         Public Sub New()
+            ' Inicialização padrão do logger, pode ser removido se não for necessário
+            logger = New GeraLog()
         End Sub
 
-        Public Sub New([object] As IGeraLog)
-            logger = New GeraLog()
+        ' Construtor com IGeraLog
+        Public Sub New(log As IGeraLog)
+            logger = log ' Use o logger passado como parâmetro
         End Sub
 
         Public Sub ExibirResultados(pessoasFemininas As List(Of Pessoa.Pessoa)) Implements IExibidorResultados.ExibirResultados
@@ -29,7 +33,12 @@ Namespace Serviços
                 logger.Log("Resultados exibidos com sucesso.")
             Catch ex As Exception
                 ' Logando erros
-                logger.Log("Erro ao exibir resultados: " & ex.Message)
+                If logger IsNot Nothing Then
+                    logger.Log("Erro ao exibir resultados: " & ex.Message)
+                Else
+                    ' Se logger for nulo, você pode tratar de outra forma (exibir mensagem no console, por exemplo)
+                    Console.WriteLine("Erro ao exibir resultados: " & ex.Message)
+                End If
             End Try
         End Sub
     End Class
