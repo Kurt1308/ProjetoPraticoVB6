@@ -8,11 +8,19 @@ Namespace Serviços
         Private logger As IGeraLog
 
         Public Sub New()
+        End Sub
+
+        Public Sub New([object] As IGeraLog)
             logger = New GeraLog()
         End Sub
 
         Public Sub ExibirResultados(pessoasFemininas As List(Of Pessoa.Pessoa)) Implements IExibidorResultados.ExibirResultados
             Try
+                If pessoasFemininas Is Nothing OrElse pessoasFemininas.Count = 0 Then
+                    logger.Log("Nenhum resultado encontrado.")
+                    Return
+                End If
+
                 Dim jsonString As String = JsonConvert.SerializeObject(pessoasFemininas, Formatting.Indented)
                 Console.WriteLine("____________________________________________")
                 Console.WriteLine(jsonString)
