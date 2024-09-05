@@ -1,5 +1,4 @@
-﻿Imports System.Numerics
-Imports Microsoft.VisualStudio.TestTools.UnitTesting
+﻿Imports Microsoft.VisualStudio.TestTools.UnitTesting
 Imports ProjetoPraticoVB6
 Imports ProjetoPraticoVB6.Leitor
 Imports ProjetoPraticoVB6.Logs

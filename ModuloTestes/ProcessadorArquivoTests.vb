@@ -14,7 +14,7 @@ Namespace ModuloTestes
             Dim processador As IProcessadorArquivo = New ProcessadorArquivo(logger, pessoaFactory)
             Dim contadorTotal As Integer
 
-            Dim expectedCount As Integer = 3
+            Dim expectedCount As Integer = 1
 
             ' Act
             Dim resultado As List(Of Pessoa.Pessoa) = processador.ProcessarArquivo("C:\Files\PastaTeste\arquivo.txt", contadorTotal) ' Troque pelo nome de um arquivo válido

@@ -5,6 +5,7 @@ Namespace Logs
         Implements IGeraLog
 
         Private logFilePath As String
+        Private logFilePathTest As String
 
         Public Sub New()
             Try
@@ -21,6 +22,21 @@ Namespace Logs
             Catch ex As Exception
                 Console.WriteLine("Erro ao inicializar o logger: " & ex.Message)
             End Try
+
+            Try
+                ' Define o caminho do diretório de log
+                Dim logDirectoryTest As String = "C:\Files\PastaTeste\LogTest"
+                ' Cria o nome do arquivo de log com a data atual formatada
+                Dim logFileNameTest As String = $"log_{DateTime.Now:yyyy-MM-dd}.txt"
+                logFilePathTest = Path.Combine(logDirectoryTest, logFileNameTest)
+
+                ' Cria o diretório se não existir
+                If Not Directory.Exists(logDirectoryTest) Then
+                    Directory.CreateDirectory(logDirectoryTest)
+                End If
+            Catch ex As Exception
+                Console.WriteLine("Erro ao inicializar o logger: " & ex.Message)
+            End Try
         End Sub
 
         Public Sub Log(message As String) Implements IGeraLog.Log
@@ -28,6 +44,18 @@ Namespace Logs
                 ' Adiciona a mensagem de log com a data e hora atual
                 Dim logMessage As String = $"{DateTime.Now}: {message}{Environment.NewLine}*********************{Environment.NewLine}"
                 File.AppendAllText(logFilePath, logMessage)
+            Catch ex As Exception
+                Console.WriteLine("Erro ao escrever no log: " & ex.Message)
+            End Try
+        End Sub
+
+
+
+        Public Sub LogTest(message As String) Implements IGeraLog.LogTest
+            Try
+                ' Adiciona a mensagem de log com a data e hora atual
+                Dim logMessage As String = $"{DateTime.Now}: {message}{Environment.NewLine}*********************{Environment.NewLine}"
+                File.AppendAllText(logFilePathTest, logMessage)
             Catch ex As Exception
                 Console.WriteLine("Erro ao escrever no log: " & ex.Message)
             End Try

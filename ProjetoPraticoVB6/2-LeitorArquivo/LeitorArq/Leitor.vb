@@ -25,23 +25,46 @@ Namespace Leitor
         Public Sub LerArquivos(filePath As String) Implements ILeitor.LerArquivos
             If Not verificadorDiretorio.VerificarDiretorio(filePath) Then Return
 
-            Dim arquivos As String() = Directory.GetFiles(filePath, "*.txt")
-            Dim contadorTotal As Integer = 0
-            Dim todasPessoasFemininas As New List(Of Pessoa.Pessoa)()
+            'Separação para gerar log de Teste
+            If filePath = "C:\Files\PastaTeste" Then
+                Dim arquivos As String() = Directory.GetFiles(filePath, "*.txt")
+                Dim contadorTotal As Integer = 0
+                Dim todasPessoasFemininas As New List(Of Pessoa.Pessoa)()
 
-            For Each inputFile As String In arquivos
-                Dim pessoasFemininas As List(Of Pessoa.Pessoa) = processadorArquivo.ProcessarArquivo(inputFile, contadorTotal)
-                If pessoasFemininas IsNot Nothing Then
-                    todasPessoasFemininas.AddRange(pessoasFemininas)
+                For Each inputFile As String In arquivos
+                    Dim pessoasFemininas As List(Of Pessoa.Pessoa) = processadorArquivo.ProcessarArquivo(inputFile, contadorTotal)
+                    If pessoasFemininas IsNot Nothing Then
+                        todasPessoasFemininas.AddRange(pessoasFemininas)
+                    End If
+                Next
+
+                If contadorTotal = 0 Then
+                    logger.LogTest("Nenhum arquivo .txt encontrado ou processado.")
+                    Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
+                ElseIf todasPessoasFemininas.Count > 0 Then
+                    exibidorResultados.ExibirResultados(todasPessoasFemininas)
                 End If
-            Next
+            Else
+                Dim arquivos As String() = Directory.GetFiles(filePath, "*.txt")
+                Dim contadorTotal As Integer = 0
+                Dim todasPessoasFemininas As New List(Of Pessoa.Pessoa)()
 
-            If contadorTotal = 0 Then
-                logger.Log("Nenhum arquivo .txt encontrado ou processado.")
-                Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
-            ElseIf todasPessoasFemininas.Count > 0 Then
-                exibidorResultados.ExibirResultados(todasPessoasFemininas)
+                For Each inputFile As String In arquivos
+                    Dim pessoasFemininas As List(Of Pessoa.Pessoa) = processadorArquivo.ProcessarArquivo(inputFile, contadorTotal)
+                    If pessoasFemininas IsNot Nothing Then
+                        todasPessoasFemininas.AddRange(pessoasFemininas)
+                    End If
+                Next
+
+                If contadorTotal = 0 Then
+                    logger.Log("Nenhum arquivo .txt encontrado ou processado.")
+                    Console.WriteLine("Nenhum arquivo .txt encontrado ou processado.")
+                ElseIf todasPessoasFemininas.Count > 0 Then
+                    exibidorResultados.ExibirResultados(todasPessoasFemininas)
+                End If
             End If
+
+
         End Sub
 
     End Class
