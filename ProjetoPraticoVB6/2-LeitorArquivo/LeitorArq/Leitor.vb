@@ -11,7 +11,7 @@ Namespace Leitor
         Private verificadorDiretorio As IVerificadorDiretorio
         Private exibidorResultados As IExibidorResultados
         Private processadorArquivo As IProcessadorArquivo
-        Private pessoaFactory As IPessoaFactory ' Adicione esta linha
+        Private pessoaFactory As IPessoaFactory
 
         ' Inicializa os construtores
         Public Sub New()
