@@ -14,7 +14,7 @@ Namespace Serviços
             Dim elements() As String = line.Split(";"c)
 
             If String.Equals(elements(0).Trim(), "Maria", StringComparison.OrdinalIgnoreCase) Then
-                logger.Log($"Criando pessoa: {elements(0).Trim()} {elements(1).Trim()}.")
+                logger.LogTest($"Criando pessoa: {elements(0).Trim()} {elements(1).Trim()}.")
                 If elements.Length < 5 Then Return Nothing ' Verifica se a linha tem elementos suficientes
 
                 Return New Pessoa.Pessoa With {

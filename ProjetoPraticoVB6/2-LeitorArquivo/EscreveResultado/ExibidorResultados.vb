@@ -20,7 +20,7 @@ Namespace Serviços
 
         Public Sub ExibirResultados(pessoasFemininas As List(Of Pessoa.Pessoa)) Implements IExibidorResultados.ExibirResultados
             If pessoasFemininas IsNot Nothing AndAlso pessoasFemininas.Count > 0 AndAlso
-               pessoasFemininas.Any(Function(p) p.ToString() = "Maria;Oliveira;28;Feminino;Rio de Janeiro") Then
+               pessoasFemininas.Any(Function(p) p.Nome.ToString() = "Maria") Then
                 Try
                     ' A lista não é nula e contém elementos, agora você pode prosseguir
                     Dim jsonString As String = JsonConvert.SerializeObject(pessoasFemininas, Formatting.Indented)
@@ -28,7 +28,7 @@ Namespace Serviços
                     Console.WriteLine(jsonString)
 
                     ' Logando a operação
-                    logger.LogTest("Resultados exibidos com sucesso.")
+                    logger.LogTest("Resultados exibidos com sucesso." & jsonString)
                 Catch ex As Exception
                     ' Logando erros
                     If logger IsNot Nothing Then
@@ -49,6 +49,8 @@ Namespace Serviços
                     Console.WriteLine("____________________________________________")
                     Console.WriteLine(jsonString)
 
+                    Dim pessoasFemininasConvertidoString As String = JsonConvert.SerializeObject(pessoasFemininas, Formatting.Indented)
+                    logger.Log("Resultados exibidos com sucesso! " & pessoasFemininasConvertidoString)
                     ' Logando a operação
                     logger.Log("Resultados exibidos com sucesso.")
                 Catch ex As Exception
