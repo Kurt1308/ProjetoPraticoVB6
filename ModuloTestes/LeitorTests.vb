@@ -14,7 +14,7 @@ Namespace ModuloTestes
             Dim leitor As ILeitor = New ProjetoPraticoVB6.Leitor.Leitor()
             Dim filePath As String = "C:\Files\PastaTeste" ' Alterar para um caminho válido
             Dim logDirectoryPath As String = "C:\Files\PastaTeste\LogTest" ' Caminho do diretório de log
-            Dim currentDate As String = DateTime.Now.ToString("yyyy-MM-dd") ' Caminho do diretório de log
+            Dim currentDate As String = DateTime.Now.ToString("yyyy-MM-dd")
             Dim logFileName As String = "log_" & currentDate & ".txt" ' Nome do arquivo com extensão
             Dim logFilePath As String = Path.Combine(logDirectoryPath, logFileName) ' Combina caminho e nome do arquivo
 
